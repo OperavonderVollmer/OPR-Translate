@@ -1,0 +1,4 @@
+deep_translator
+
+
+git+https://github.com/OperavonderVollmer/OperaPowerRelay
