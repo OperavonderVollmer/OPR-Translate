@@ -5,8 +5,31 @@ import os, importlib.util
 
 
 
-def load_translators(specific_translator: str = None) -> Translator | dict[str, Translator]:
-    translators_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Translators")
+def load_translators(path: str = None, specific_translator: str = None) -> Translator | dict[str, Translator] | None:
+
+
+    """
+    Loads and returns translators from the specified path or the default "Translators" directory.
+
+    If a specific translator is provided, returns only that translator.
+
+    Parameters
+    ----------
+    path : str, optional
+        The directory path to load translators from. Defaults to None, which uses the default "Translators" directory.
+    specific_translator : str, optional
+        The name of a specific translator to load. Defaults to None, which loads all available translators.
+
+    Returns
+    -------
+    Translator or dict[str, Translator] or None
+        A dictionary of translators if no specific translator is provided, a single Translator if a specific translator 
+        is matched, or None if the specific translator is not found.
+    """
+
+
+
+    translators_path = path or os.path.join(os.path.dirname(os.path.abspath(__file__)), "Translators") 
 
     translators = {}
 
@@ -21,11 +44,14 @@ def load_translators(specific_translator: str = None) -> Translator | dict[str, 
         tra = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(tra)
 
-        if specific_translator is not None and translator_name == specific_translator: 
-                    return tra.get_translator()
-        
-        if hasattr(tra, "get_translator"):
+        if specific_translator is None and hasattr(tra, "get_translator"):
             translators[translator_name] = tra.get_translator()
+
+        if translator_name == specific_translator: 
+            found_translator = tra.get_translator()
+
+    if specific_translator is not None:
+        return found_translator or None
 
     return translators
 

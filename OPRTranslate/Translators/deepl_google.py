@@ -1,5 +1,4 @@
 from OPRTranslate.Interface.TranslatorInterface import Translator
-from OperaPowerRelay import opr
 
 
 
@@ -28,10 +27,7 @@ class deepl_google(Translator):
 
         translated = self._translator.translate(text, source_language=source_language or self._source_language, target_language=target_language or self._target_language)
 
-        return translated
-    
-
-    
+        return translated  
     
 
 def get_translator() -> Translator:
