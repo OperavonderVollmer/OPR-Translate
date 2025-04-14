@@ -6,7 +6,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         "deep_translator",
-        "OperaPowerRelay @ git+https://github.com/OperavonderVollmer/OperaPowerRelay"
+        "OperaPowerRelay @ git+https://github.com/OperavonderVollmer/OperaPowerRelay@main"
     ],
     python_requires=">=3.7",
     author="Opera von der Vollmer",
