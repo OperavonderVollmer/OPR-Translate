@@ -44,3 +44,6 @@ Using the abstract class [Translator](https://github.com/OperavonderVollmer/OPR-
 Make sure that both the class and the filename is the same as [OPRTranslate](https://github.com/OperavonderVollmer/OPR-Translate/blob/main/OPRTranslate/OPRTranslate.py)'s load_translators function relies on the class and file names to have the same name
 
 Add a get_translator function that returns the created class inside the python file, as seen [here](https://github.com/OperavonderVollmer/OPR-Translate/blob/main/OPRTranslate/Translators/deepl_google.py).
+
+## Current Options
+- [DeepL (Google Translate)](https://github.com/DeepLcom/deepl-python)
