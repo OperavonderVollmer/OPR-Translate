@@ -33,11 +33,11 @@ def load_translators(path: str = None, specific_translator: str = None) -> Trans
 
     translators = {}
 
-    for fileName in os.listdir(translators_path):
-        if not fileName.endswith(".py"):
+    for file_name in os.listdir(translators_path):
+        if not file_name.endswith(".py"):
             continue
-        translator_name = fileName[:-3] # removes py
-        translator_path = os.path.join(translators_path, fileName)
+        translator_name = file_name[:-3] # removes py
+        translator_path = os.path.join(translators_path, file_name)
 
         spec = importlib.util.spec_from_file_location(translator_name, translator_path)    
 
@@ -48,18 +48,20 @@ def load_translators(path: str = None, specific_translator: str = None) -> Trans
             translators[translator_name] = tra.get_translator()
 
         if translator_name == specific_translator: 
-            found_translator = tra.get_translator()
-
-    if specific_translator is not None:
-        return found_translator or None
+            return tra.get_translator()
 
     return translators
 
-def main() -> None:
+def main(p: str = None) -> None:
 
     print("OPR Translate v1.0.0 demo")
 
-    translators = load_translators()
+    abs_path = p or os.path.dirname(os.path.abspath(__file__))
+
+    if not abs_path.endswith("Translators"):
+        path = os.path.join(abs_path, "Translators")  
+
+    translators = load_translators(path=path)
 
     while True:
         opr.list_choices(translators.keys(), "Select a translator")
