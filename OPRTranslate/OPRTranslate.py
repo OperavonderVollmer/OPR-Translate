@@ -1,35 +1,33 @@
 from OPRTranslate.Interface.TranslatorInterface import Translator
 from OperaPowerRelay import opr
 import os, importlib.util
+from pathlib import Path
 
 
 
-
-def load_translators(path: str = None, specific_translator: str = None) -> Translator | dict[str, Translator] | None:
+def load_translators(specific_translator: str = None) -> Translator | dict[str, Translator] | None:
 
 
     """
-    Loads and returns translators from the specified path or the default "Translators" directory.
+    
+    Loads and returns translators from the default "Translators" directory.
 
     If a specific translator is provided, returns only that translator.
 
     Parameters
     ----------
-    path : str, optional
-        The directory path to load translators from. Defaults to None, which uses the default "Translators" directory.
     specific_translator : str, optional
-        The name of a specific translator to load. Defaults to None, which loads all available translators.
+        The name of a specific translator to load. If None, all translators are loaded.
 
     Returns
     -------
-    Translator or dict[str, Translator] or None
+    Translator | dict[str, Translator] | None
         A dictionary of translators if no specific translator is provided, a single Translator if a specific translator 
-        is matched, or None if the specific translator is not found.
+        is matched, or None if the specific translator is not found.    
+
     """
-
-
-
-    translators_path = path or os.path.join(os.path.dirname(os.path.abspath(__file__)), "Translators") 
+    
+    translators_path = Path(__file__).resolve().parent / "Translators"
 
     translators = {}
 
@@ -52,16 +50,11 @@ def load_translators(path: str = None, specific_translator: str = None) -> Trans
 
     return translators
 
-def main(p: str = None) -> None:
+def main() -> None:
 
     print("OPR Translate v1.0.0 demo")
 
-    abs_path = p or os.path.dirname(os.path.abspath(__file__))
-
-    if not abs_path.endswith("Translators"):
-        path = os.path.join(abs_path, "Translators")  
-
-    translators = load_translators(path=path)
+    translators = load_translators()
 
     while True:
         opr.list_choices(translators.keys(), "Select a translator")
